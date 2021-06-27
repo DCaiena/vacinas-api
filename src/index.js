@@ -1,4 +1,5 @@
 const restify = require('restify');
+const cors = require('cors')
 const router = require('./Router');
 const server = restify.createServer({
   name:'VacinasServer',
@@ -7,6 +8,10 @@ const server = restify.createServer({
 server.use(restify.plugins.acceptParser(server.acceptable));
 server.use(restify.plugins.queryParser());
 server.use(restify.plugins.bodyParser());
+
+server.pre(cors())
+server.use(cors())
+
 
 const porta = 8000
 

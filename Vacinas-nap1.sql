@@ -24,6 +24,15 @@ create table vacinacao(
     foreign key (vacina_id) references vacina(_id)
 );
 
+create table usuario(
+	_id  int primary key auto_increment not null,
+    nome varchar(50),
+    email varchar(50),
+    senha varchar(100),
+    perfil varchar(50),
+    token_usuario varchar(50)
+);
+insert into usuario value(null, 'Profissional da saude','profissional@gmail.com', 'default','admin','token!!34232');
 insert into crianca value(null, 'Diego Caiena','02300137240');
 insert into vacina value(null, 'APFAIZERR','pfaizerltd','Vacina contra covid');
 select * from vacina;
