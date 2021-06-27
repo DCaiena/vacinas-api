@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const salt = 12
 const secrekey = 'vacci2021!0!0'
 const jwt = require('jsonwebtoken')
+const { errorHandle } = require("../modules/errorHandle")
 const usuarioController ={
   index(req, res){
 
@@ -25,7 +26,7 @@ const usuarioController ={
         _payload 
       })
     } catch (error) {
-      console.log(error)
+      errorHandle(error, res)
     }
   },
   async store(req, res){
@@ -49,7 +50,7 @@ const usuarioController ={
         payload 
       })
     } catch (error) {
-      console.log(error)
+      errorHandle(error, res)
     }
 
   }

@@ -1,4 +1,5 @@
 const DB_CONNETION = require("../dbconnection")
+const { errorHandle } = require("../modules/errorHandle")
 
 const criancaContoller ={
   async index(req, res){
@@ -7,7 +8,7 @@ const criancaContoller ={
       console.log(criancas)
       res.json(criancas)
     } catch (error) {
-      console.log(error)
+      errorHandle(error, res)
     }
   },
   async store(req, res){
@@ -23,7 +24,7 @@ const criancaContoller ={
       }
       res.json(true)
     } catch (error) {
-      console.log(error)
+      errorHandle(error, res)
     }
   },
   async getCriancaDados(req,res){
@@ -31,7 +32,8 @@ const criancaContoller ={
       let dados = await criancaCadastrada(req.body.cpf)
       res.json(dados)
     } catch (error) {
-      console.log(error)
+      errorHandle(error, res)
+
     }
   },
   async deletarCrianca(req, res){
@@ -39,7 +41,7 @@ const criancaContoller ={
       await deletarCrianca(req.params._id)
       res.json(true)
     } catch (error) {
-      console.log(error)
+      errorHandle(error, res)
     }
   }
 }
@@ -90,7 +92,7 @@ function criancasCadastradas(){
 function deletarCrianca(crianca_id){
   return new Promise((resolve, reject) =>{
     DB_CONNETION.query('delete from crianca  c where c._id = ? ',[crianca_id], (error, result) =>{
-      if(error) reject(error)
+      if(error) reject('Não foi possível deletar criança pois já possui dados referentes a mesma')
       resolve(result)
     }
     )

@@ -1,4 +1,5 @@
 const DB_CONNETION = require("../dbconnection")
+const { errorHandle } = require("../modules/errorHandle")
 
 const vacinaController ={
   async index(req, res){
@@ -6,7 +7,7 @@ const vacinaController ={
       let vacinas = await vacinasCadastradas()
       res.json(vacinas)
     } catch (error) {
-      console.log(error)
+      errorHandle(error,res)
     }
   },
   async store(req, res){
@@ -18,7 +19,7 @@ const vacinaController ={
       }
       res.json(true)
     } catch (error) {
-      console.log(error)
+      errorHandle(error,res)
     }
   },
   async getVacinasDados(req, res){
@@ -26,7 +27,7 @@ const vacinaController ={
       let vacina = await getVacinaCadastrada(req.body._id)
       res.json(vacina)
     } catch (error) {
-      console.log(error)
+      errorHandle(error,res)
     }
   },
   async delete(req, res){
@@ -34,7 +35,8 @@ const vacinaController ={
       await deleteVacina(req.params._id)
       res.json(true)
     } catch (error) {
-      console.log(error)
+      errorHandle(error,res)
+
     }
   }
 }
@@ -82,7 +84,7 @@ function getVacinaCadastrada(vacina_id){
 function deleteVacina(vacina_id){
   return new Promise((resolve, reject) =>{
     DB_CONNETION.query('delete from vacina  v where v._id = ? ',[vacina_id], (error, result) =>{
-      if(error) reject(error)
+      if(error) reject('Nao foi possível deletar essa vacina')
       resolve(result)
     }
     )

@@ -8,7 +8,7 @@ const vacinacaoController ={
       console.log(vacinacoes)
       res.json(vacinacoes)
     } catch (error) {
-      
+      errorHandle(error, res)
     }
   },
   async store(req, res){
@@ -16,7 +16,7 @@ const vacinacaoController ={
       await cadastraVacinacao(req.body)
       res.json(true)
     } catch (error) {
-      console.log(error)
+      errorHandle(error, res)
     }
    
   },
@@ -25,7 +25,8 @@ const vacinacaoController ={
       await deletarVacinacao(req.params._id)
       res.json(true)
     } catch (error) {
-      console.log(error)
+      errorHandle(error, res)
+
     }
   }
 }
@@ -33,7 +34,7 @@ const vacinacaoController ={
 function deletarVacinacao(vacinacao_id){
   return new Promise((resolve, reject) =>{
     DB_CONNETION.query('delete from vacinacao v where v._id = ? ',[vacinacao_id], (error, result) =>{
-      if(error) reject(error)
+      if(error) reject('Não foi possível deletar essa vacinação')
       resolve(result)
     }
     )
